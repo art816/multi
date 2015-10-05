@@ -4,17 +4,14 @@ import os
 import time
 
 def child_counter(count):
-    for i in range(count):
-        n = 2
-        for j in range(10**6):
-           n = (n**2) % 10**20
-        print("Child id={} i={} n={}".format(os.getpid(), i, n))
+    os.execlp('python3', 'python3', 'child_program.py', str(count))
+    assert(False, "Can not start program")
 
 def parent():
     for i in range(16):
         newpid = os.fork()
         if newpid == 0:
-            child_counter(5)
+            child_counter(i)
             os._exit(0)
         else:
             print("Parent ", os.getpid(), newpid)
